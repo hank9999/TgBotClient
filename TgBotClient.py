@@ -14,7 +14,7 @@ async def rcon(address, port, password, command):
     try:
         with MCRcon(address, password, port) as mcr:
             r = mcr.command(command)
-        r = re.sub('§[0-9a-fk-or]', '', r, re.IGNORECASE)
+        r = re.sub('§[0-9a-fk-orA-FK-OR]', '', r)
         return r
     except Exception:
         return 'RCON执行遇到错误'
