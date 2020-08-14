@@ -1,5 +1,6 @@
 import re
 import json
+import datetime
 from aiohttp import web
 from MCRcon import MCRcon
 from Setting import WebServerSetting
@@ -27,8 +28,8 @@ async def get_handler(request):
 @routes.post('/rcon')
 async def post_handler(request):
     data = await request.text()
+    print('[{}] rcon command executed'.format(datetime.datetime.now().strftime('%m-%d %H:%M:%S')), end='  ')
     try:
-        print(data)
         json_source = await decrypt(data)
         json_data = json.loads(json_source)
     except Exception:
@@ -56,14 +57,16 @@ async def post_handler(request):
 
     result = await encrypt(str(result))
 
+    print('')
+
     return web.Response(text=result)
 
 
 @routes.post('/list')
 async def post_handler(request):
     data = await request.text()
+    print('[{}] list command executed'.format(datetime.datetime.now().strftime('%m-%d %H:%M:%S')), end='  ')
     try:
-        print(data)
         json_source = await decrypt(data)
         json_data = json.loads(json_source)
     except Exception:
@@ -79,6 +82,8 @@ async def post_handler(request):
 
     result = await getStatus(json_data)
     result = await encrypt(str(result))
+
+    print('')
 
     return web.Response(text=result)
 
